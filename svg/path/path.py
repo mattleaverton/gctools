@@ -1,7 +1,5 @@
-from __future__ import division
-from math import sqrt, cos, sin, acos, degrees, radians, log
 from collections import MutableSequence
-
+from math import sqrt, cos, sin, acos, degrees, radians, log
 
 # This file contains classes for the different types of SVG path segments as
 # well as a Path object that contains a sequence of path segments.
@@ -67,7 +65,7 @@ class CubicBezier(object):
 
     def __repr__(self):
         return 'CubicBezier(start=%s, control1=%s, control2=%s, end=%s)' % (
-               self.start, self.control1, self.control2, self.end)
+            self.start, self.control1, self.control2, self.end)
 
     def __eq__(self, other):
         if not isinstance(other, CubicBezier):
@@ -110,7 +108,7 @@ class QuadraticBezier(object):
 
     def __repr__(self):
         return 'QuadraticBezier(start=%s, control=%s, end=%s)' % (
-               self.start, self.control, self.end)
+            self.start, self.control, self.end)
 
     def __eq__(self, other):
         if not isinstance(other, QuadraticBezier):
@@ -171,7 +169,7 @@ class Arc(object):
 
     def __repr__(self):
         return 'Arc(start=%s, radius=%s, rotation=%s, arc=%s, sweep=%s, end=%s)' % (
-               self.start, self.radius, self.rotation, self.arc, self.sweep, self.end)
+            self.start, self.radius, self.rotation, self.arc, self.sweep, self.end)
 
     def __eq__(self, other):
         if not isinstance(other, Arc):

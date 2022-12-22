@@ -1,6 +1,7 @@
 # SVG Path specification parser
 
 import re
+
 from . import path
 
 COMMANDS = set('MmZzLlHhVvCcSsQqTtAa')

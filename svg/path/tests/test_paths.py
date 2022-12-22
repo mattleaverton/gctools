@@ -1,4 +1,3 @@
-from __future__ import division
 import unittest
 from math import sqrt, pi
 
@@ -6,7 +5,7 @@ from ..path import CubicBezier, QuadraticBezier, Line, Arc, Path
 
 
 # Most of these test points are not calculated serparately, as that would
-# take too long and be too error prone. Instead the curves have been verified
+# take too long and be too error-prone. Instead the curves have been verified
 # to be correct visually, by drawing them with the turtle module, with code
 # like this:
 #
@@ -155,7 +154,6 @@ class CubicBezierTest(unittest.TestCase):
         self.assertAlmostEqual(arc4.point(1), (0j))
 
     def test_svg_examples(self):
-
         # M100,200 C100,100 250,100 250,200
         path1 = CubicBezier(100 + 200j, 100 + 100j, 250 + 100j, 250 + 200j)
         self.assertAlmostEqual(path1.point(0), (100 + 200j))
@@ -230,7 +228,6 @@ class CubicBezierTest(unittest.TestCase):
         self.assertAlmostEqual(path9.point(1), (900 + 800j))
 
     def test_length(self):
-
         # A straight line:
         arc = CubicBezier(
             complex(0, 0),
