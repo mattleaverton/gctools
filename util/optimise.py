@@ -7,8 +7,8 @@
 # ----------------------------------------------------------------------------
 from math import sqrt
 
-from gcode import GCode
-from logger import LOG
+from util.gcode import GCode
+from util.logger import LOG
 
 
 def cmp(a, b):

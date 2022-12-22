@@ -1,7 +1,7 @@
 import unittest
 from math import sqrt, pi
 
-from ..path import CubicBezier, QuadraticBezier, Line, Arc, Path
+from svg.path.path import CubicBezier, QuadraticBezier, Line, Arc, Path
 
 
 # Most of these test points are not calculated serparately, as that would

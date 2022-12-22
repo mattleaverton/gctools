@@ -7,8 +7,8 @@
 from os.path import exists, realpath, join, dirname
 from string import Template
 
-from jsonhelp import fromJSONFile
-from logger import LOG
+from util.jsonhelp import fromJSONFile
+from util.logger import LOG
 
 
 def getSettings(control, options):

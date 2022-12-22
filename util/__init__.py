@@ -4,12 +4,12 @@
 #
 # Utility classes and methods for gcode manipulation.
 # ----------------------------------------------------------------------------
-from arcfix import CorrectArc
-from filename import defaultExtension
-from filters import SwapXY, Translate, Rotate, Flip, ZLevel, FeedRate
-from gcode import PARAMS, GCommand, GCode, Loader, Filter, FilterChain, loadGCode, saveGCode
-from jsonhelp import toJSON, fromJSON, fromJSONFile
-from loaders import BoxedLoader
-from logger import LOG, Logger
-from optimise import optimise
-from options import getSettings
+from util.arcfix import CorrectArc
+from util.filename import defaultExtension
+from util.filters import SwapXY, Translate, Rotate, Flip, ZLevel, FeedRate
+from util.gcode import PARAMS, GCommand, GCode, Loader, Filter, FilterChain, loadGCode, saveGCode
+from util.jsonhelp import toJSON, fromJSON, fromJSONFile
+from util.loaders import BoxedLoader
+from util.logger import LOG, Logger
+from util.optimise import optimise
+from util.options import getSettings

@@ -2,7 +2,7 @@
 
 import re
 
-from . import path
+from svg.path import path
 
 COMMANDS = set('MmZzLlHhVvCcSsQqTtAa')
 UPPERCASE = set('MZLHVCSQTA')

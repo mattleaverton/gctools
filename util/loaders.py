@@ -4,7 +4,7 @@
 #
 # A simple set of loaders.
 # ----------------------------------------------------------------------------
-from gcode import Loader, GCommand
+from util.gcode import Loader, GCommand
 
 
 class BoxedLoader(Loader):

@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 from math import sin, cos, radians
 
-from gcode import Filter
+from util.gcode import Filter
 
 
 class SwapXY(Filter):
