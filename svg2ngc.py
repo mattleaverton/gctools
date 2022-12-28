@@ -35,7 +35,6 @@ GCODE_SUFFIX = """
 (Operation complete)
 G0 X0 Y0 Z%0.4f
 M2
-%
 """
 
 
@@ -45,6 +44,8 @@ def styleContains(style, values):
     # First break up the style into properties
     props = dict()
     for entry in style.split(";"):
+        if entry == "":
+            continue
         k, v = [e.strip() for e in entry.split(":")]
         props[k] = v
     # Now check for a match
@@ -59,6 +60,8 @@ def getScaling(doc):
     """
     wmm = float(doc.get("width")[:-2])
     hmm = float(doc.get("height")[:-2])
+    # TODO if viewBox is not defined - interpolate from width/height or set to a default "0 0 100 100" if no
+    #   information is available
     vbox = list([float(n) for n in doc.get("viewBox").split(" ")])
     return wmm / vbox[2], hmm / vbox[3], vbox[3]
 
@@ -74,10 +77,15 @@ def processPath(path, cut, safe, sx, sy, h, precision):
     tool = False
     lx, ly = None, None
     for segment in path:
-        length = segment.length()
+        try:
+            length = segment.length()
+        except ZeroDivisionError as ex:
+            print(segment)
+            raise ex
         if length == 0.0:
             continue
         gcode.append("(%s,%0.4fmm)" % (segment.__class__.__name__, length * sx))
+        # print("(%s,%0.4fmm)" % (segment.__class__.__name__, length * sx))
         # Move the tool head if there is a break in the path
         x, y = getXY(segment.start, sx, sy, h)
         if (x != lx) or (y != ly):
@@ -91,7 +99,7 @@ def processPath(path, cut, safe, sx, sy, h, precision):
             tool = True
         # Determine what sort of object we are processing
         consumed = False
-        if segment.__class__ == Line:
+        if isinstance(segment, Line):
             # Do the move to the end point
             x, y = getXY(segment.end, sx, sy, h)
             gcode.append("G1 X%0.4f Y%0.4f" % (x, y))
@@ -159,6 +167,7 @@ if __name__ == "__main__":
             # Ignore 'red' construction lines
             s = path.get("style")
             if s is not None:
+                # if styleContains(s, {'stroke': "#000000"}):
                 if not styleContains(s, {'stroke': "#000000"}):
                     # Non-black strokes are construction lines
                     continue

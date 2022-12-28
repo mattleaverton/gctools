@@ -31,9 +31,9 @@ def parse_path(pathdef, current_pos=0j):
     segments = path.Path()
     start_pos = None
     command = None
+    absolute = False
 
     while elements:
-
         if elements[-1] in COMMANDS:
             # New command.
             last_command = command  # Used by S and T
@@ -47,8 +47,10 @@ def parse_path(pathdef, current_pos=0j):
                 raise ValueError("Unallowed implicit command in %s, position %s" % (
                     pathdef, len(pathdef.split()) - len(elements)))
 
+        # ---
+        # Line commands
         if command == 'M':
-            # Moveto command.
+            # Move To command.
             x = elements.pop()
             y = elements.pop()
             pos = float(x) + float(y) * 1j
@@ -68,7 +70,7 @@ def parse_path(pathdef, current_pos=0j):
             command = 'L'
 
         elif command == 'Z':
-            # Close path
+            # Close Path
             segments.append(path.Line(current_pos, start_pos))
             segments.closed = True
             current_pos = start_pos
@@ -76,6 +78,7 @@ def parse_path(pathdef, current_pos=0j):
             command = None  # You can't have implicit commands after closing.
 
         elif command == 'L':
+            # Line To
             x = elements.pop()
             y = elements.pop()
             pos = float(x) + float(y) * 1j
@@ -85,6 +88,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = pos
 
         elif command == 'H':
+            # Horizontal Line
             x = elements.pop()
             pos = float(x) + current_pos.imag * 1j
             if not absolute:
@@ -93,6 +97,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = pos
 
         elif command == 'V':
+            # Vertical Line
             y = elements.pop()
             pos = current_pos.real + float(y) * 1j
             if not absolute:
@@ -100,7 +105,10 @@ def parse_path(pathdef, current_pos=0j):
             segments.append(path.Line(current_pos, pos))
             current_pos = pos
 
+        # ---
+        # Curve commands
         elif command == 'C':
+            # Cubic Bezier curve
             control1 = float(elements.pop()) + float(elements.pop()) * 1j
             control2 = float(elements.pop()) + float(elements.pop()) * 1j
             end = float(elements.pop()) + float(elements.pop()) * 1j
@@ -114,7 +122,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = end
 
         elif command == 'S':
-            # Smooth curve. First control point is the "reflection" of
+            # Smooth Cubic curve. First control point is the "reflection" of
             # the second control point in the previous path.
 
             if last_command not in 'CS':
@@ -139,6 +147,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = end
 
         elif command == 'Q':
+            # Quadratic Bezier Curve
             control = float(elements.pop()) + float(elements.pop()) * 1j
             end = float(elements.pop()) + float(elements.pop()) * 1j
 
@@ -150,7 +159,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = end
 
         elif command == 'T':
-            # Smooth curve. Control point is the "reflection" of
+            # Smooth Quadratic curve. Control point is the "reflection" of
             # the second control point in the previous path.
 
             if last_command not in 'QT':
@@ -173,6 +182,7 @@ def parse_path(pathdef, current_pos=0j):
             current_pos = end
 
         elif command == 'A':
+            # Arc
             radius = float(elements.pop()) + float(elements.pop()) * 1j
             rotation = float(elements.pop())
             arc = float(elements.pop())
@@ -184,5 +194,8 @@ def parse_path(pathdef, current_pos=0j):
 
             segments.append(path.Arc(current_pos, radius, rotation, arc, sweep, end))
             current_pos = end
+
+        else:
+            print(f"Unexpected command: {command}")
 
     return segments

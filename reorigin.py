@@ -35,8 +35,7 @@ if __name__ == "__main__":
             exit(1)
     # Check positional arguments
     if len(args) != 1:
-        print
-        USAGE.strip() % argv[0]
+        print(USAGE.strip() % argv[0])
         exit(1)
     # Process the file
     gcode = loadGCode(args[0])

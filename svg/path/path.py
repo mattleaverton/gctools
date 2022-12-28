@@ -1,4 +1,4 @@
-from collections import MutableSequence
+from typing import MutableSequence
 from math import sqrt, cos, sin, acos, degrees, radians, log
 
 # This file contains classes for the different types of SVG path segments as

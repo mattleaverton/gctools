@@ -196,6 +196,16 @@ class GCode(Loader):
         else:
             if not isinstance(cmd, GCommand):
                 cmd = GCommand(str(cmd))
+
+            # If a move command only specifies one axis, then the existing rotation algorithm breaks
+            #   Pull the previous value of the missing axis and use it
+            # TODO This assumes the previous command itself has axis data - this may not always be the case
+            #   Also will break if the first move command only specifies a single axis
+            if (cmd.X is not None) and (cmd.Y is None):
+                cmd.Y = self.lines[-1].Y
+            if (cmd.X is None) and (cmd.Y is not None):
+                cmd.X = self.lines[-1].X
+
             self.lines.append(cmd)
             # Update bounds
             self.minx = self._minVal(self.minx, cmd.X)
@@ -394,8 +404,12 @@ def saveGCode(filename, gcode, prefix=None, suffix=None):
     with open(filename, "w") as target:
         if prefix is not None:
             target.write(str(prefix).strip() + "\n")
-        for line in gcode.lines:
-            target.write(str(line) + "\n")
+        if isinstance(gcode, GCode):
+            for line in gcode.lines:
+                target.write(str(line) + "\n")
+        else:
+            for line in gcode:
+                target.write(str(line) + "\n")
         if suffix is not None:
             target.write(str(suffix).strip() + "\n")
 
