@@ -40,6 +40,22 @@ class Translate(Filter):
         return result
 
 
+class Scale(Filter):
+    """ Scale on one or more axis
+    """
+
+    def __init__(self, scale):
+        self.scale = scale
+
+    def apply(self, command):
+        result = command.clone()
+        if command.X is not None:
+            result.X = command.X * self.scale
+        if command.Y is not None:
+            result.Y = command.Y * self.scale
+        return result
+
+
 class Rotate(Filter):
     """ Rotate around the origin
     """

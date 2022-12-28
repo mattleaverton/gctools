@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 from util.arcfix import CorrectArc
 from util.filename import defaultExtension
-from util.filters import SwapXY, Translate, Rotate, Flip, ZLevel, FeedRate
+from util.filters import SwapXY, Translate, Rotate, Flip, ZLevel, FeedRate, Scale
 from util.gcode import PARAMS, GCommand, GCode, Loader, Filter, FilterChain, loadGCode, saveGCode
 from util.jsonhelp import toJSON, fromJSON, fromJSONFile
 from util.loaders import BoxedLoader
